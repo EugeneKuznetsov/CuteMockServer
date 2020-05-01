@@ -9,4 +9,5 @@ class CuteMockServerTestCase : public QObject
 private slots:
     void test_listen_http();
     void test_listen_https();
+    void test_listen_http_and_https();
 };
