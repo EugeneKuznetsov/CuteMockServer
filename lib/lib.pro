@@ -9,7 +9,9 @@ CONFIG += warn_on qt static
 QT = network
 
 HEADERS += \
-    cutemockserver.h
+    cutemockserver.h \
+    private/cutesslserver.h
 
 SOURCES += \
-    cutemockserver.cpp
+    cutemockserver.cpp \
+    private/cutesslserver.cpp
