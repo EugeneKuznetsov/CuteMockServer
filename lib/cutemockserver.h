@@ -2,6 +2,9 @@
 
 #include <QObject>
 
+class QTcpServer;
+class CuteSslServer;
+
 class CuteMockServer : public QObject
 {
     Q_OBJECT
@@ -9,6 +12,10 @@ class CuteMockServer : public QObject
 public:
     explicit CuteMockServer(QObject *parent = nullptr);
 
-    void listen_http(const ushort port);
-    void listen_https(const ushort port);
+    bool listen_http(const ushort port);
+    bool listen_https(const ushort port);
+
+private:
+    QTcpServer      *m_tcpServer;
+    CuteSslServer   *m_sslServer;
 };

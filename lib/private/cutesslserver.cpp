@@ -1,6 +1,6 @@
 #include "cutesslserver.h"
 
-CuteSslServer::CuteSslServer(QObject *parent) : QObject(parent)
+CuteSslServer::CuteSslServer(QObject *parent/* = nullptr*/)
+    : QTcpServer(parent)
 {
-
 }
