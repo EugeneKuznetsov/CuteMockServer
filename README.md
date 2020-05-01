@@ -1,2 +1,2 @@
 # CuteMockServer
-HTTP mock server for Qt Test Framework tests
+HTTP and HTTPS mock server library for Qt Test Framework tests.
