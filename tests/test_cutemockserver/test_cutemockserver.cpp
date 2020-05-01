@@ -12,21 +12,21 @@
 void CuteMockServerTestCase::test_listen_fail_http()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_https(8080), true);
-    QCOMPARE(mockServer.listen_http(8080), false);
+    QCOMPARE(mockServer.listenHttps(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), false);
 }
 
 void CuteMockServerTestCase::test_listen_fail_https()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(4443), true);
-    QCOMPARE(mockServer.listen_https(4443), false);
+    QCOMPARE(mockServer.listenHttp(4443), true);
+    QCOMPARE(mockServer.listenHttps(4443), false);
 }
 
 void CuteMockServerTestCase::test_listen_http()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
     QTcpSocket tcpClient;
     tcpClient.connectToHost("localhost", 8080);
@@ -38,7 +38,7 @@ void CuteMockServerTestCase::test_listen_http()
 void CuteMockServerTestCase::test_listen_https()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_https(4443), true);
+    QCOMPARE(mockServer.listenHttps(4443), true);
 
     QSslSocket sslClient;
     sslClient.connectToHost("localhost", 4443);
@@ -50,8 +50,8 @@ void CuteMockServerTestCase::test_listen_https()
 void CuteMockServerTestCase::test_listen_http_and_https()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
-    QCOMPARE(mockServer.listen_https(4443), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
+    QCOMPARE(mockServer.listenHttps(4443), true);
 
     QTcpSocket tcpClient;
     tcpClient.connectToHost("localhost", 8080);
@@ -67,7 +67,7 @@ void CuteMockServerTestCase::test_listen_http_and_https()
 void CuteMockServerTestCase::test_nullptr_http_route()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    QCOMPARE(mockServer.setHttpRoute("", nullptr), false));
 }
@@ -75,7 +75,7 @@ void CuteMockServerTestCase::test_nullptr_http_route()
 void CuteMockServerTestCase::test_nonexistent_http_route_via_get()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::GET, 200, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
@@ -96,7 +96,7 @@ void CuteMockServerTestCase::test_nonexistent_http_route_via_get()
 void CuteMockServerTestCase::test_nonexistent_http_route_via_post()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::POST, 200, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
@@ -117,7 +117,7 @@ void CuteMockServerTestCase::test_nonexistent_http_route_via_post()
 void CuteMockServerTestCase::test_nonexistent_http_route_via_put()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::PUT, 200, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
@@ -138,7 +138,7 @@ void CuteMockServerTestCase::test_nonexistent_http_route_via_put()
 void CuteMockServerTestCase::test_nonexistent_http_route_via_delete()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::DELETE, 200, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
@@ -159,7 +159,7 @@ void CuteMockServerTestCase::test_nonexistent_http_route_via_delete()
 void CuteMockServerTestCase::test_existing_http_route_via_get()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::GET, 200, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
@@ -180,7 +180,7 @@ void CuteMockServerTestCase::test_existing_http_route_via_get()
 void CuteMockServerTestCase::test_existing_http_route_via_post()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::POST, 202, CuteMockData::ApplicationJson, "{\"text\": \"Hello Cute Client\"}");
 //   QCOMPARE(mockServer.setHttpRoute("/resource/1", &cmd), true);
@@ -201,7 +201,7 @@ void CuteMockServerTestCase::test_existing_http_route_via_post()
 void CuteMockServerTestCase::test_existing_http_route_via_put()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::PUT, 201, CuteMockData::ImagePng, QFile("qrc:/test_image.png"));
 //   QCOMPARE(mockServer.setHttpRoute("/images", &cmd), true);
@@ -222,7 +222,7 @@ void CuteMockServerTestCase::test_existing_http_route_via_put()
 void CuteMockServerTestCase::test_existing_http_route_via_delete()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listen_http(8080), true);
+    QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    CuteMockData cmd(CuteMockData::DELETE, 204, CuteMockData::TextHtml, "Hello Cute Client");
 //   QCOMPARE(mockServer.setHttpRoute("/rest/resource/3", &cmd), true);

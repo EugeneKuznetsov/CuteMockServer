@@ -12,8 +12,8 @@ class CuteMockServer : public QObject
 public:
     explicit CuteMockServer(QObject *parent = nullptr);
 
-    bool listen_http(const ushort port);
-    bool listen_https(const ushort port);
+    bool listenHttp(const ushort port);
+    bool listenHttps(const ushort port);
 
 private:
     QTcpServer      *m_tcpServer;

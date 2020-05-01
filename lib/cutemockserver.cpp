@@ -11,7 +11,7 @@ CuteMockServer::CuteMockServer(QObject *parent/*= nullptr*/)
 {
 }
 
-bool CuteMockServer::listen_http(const ushort port)
+bool CuteMockServer::listenHttp(const ushort port)
 {
     const bool started = m_tcpServer->listen(QHostAddress::Any, port);
     if (!started)
@@ -19,7 +19,7 @@ bool CuteMockServer::listen_http(const ushort port)
     return started;
 }
 
-bool CuteMockServer::listen_https(const ushort port)
+bool CuteMockServer::listenHttps(const ushort port)
 {
     const bool started = m_sslServer->listen(QHostAddress::Any, port);
     if (!started)
