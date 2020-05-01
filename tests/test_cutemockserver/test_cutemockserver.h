@@ -12,4 +12,15 @@ private slots:
     void test_listen_http();
     void test_listen_https();
     void test_listen_http_and_https();
+
+    void test_nullptr_http_route();
+    void test_nonexistent_http_route_via_get();
+    void test_nonexistent_http_route_via_post();
+    void test_nonexistent_http_route_via_put();
+    void test_nonexistent_http_route_via_delete();
+    void test_existing_http_route_via_get();
+    void test_existing_http_route_via_post();
+    void test_existing_http_route_via_put();
+    void test_existing_http_route_via_delete();
+
 };

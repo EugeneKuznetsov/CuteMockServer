@@ -17,3 +17,5 @@ SOURCES += \
     ../../lib/cutemockserver.cpp \
     ../../lib/private/cutesslserver.cpp \
     test_cutemockserver.cpp
+
+RESOURCES += test_resources.qrc
