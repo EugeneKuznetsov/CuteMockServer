@@ -15,3 +15,6 @@ HEADERS += \
 SOURCES += \
     cutemockserver.cpp \
     private/cutesslserver.cpp
+
+RESOURCES += \
+    certificates.qrc

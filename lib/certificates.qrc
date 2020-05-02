@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/cute/mock/ssl">
+        <file>cert/localhost.crt</file>
+        <file>cert/localhost.key</file>
+    </qresource>
+</RCC>

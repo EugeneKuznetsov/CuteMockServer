@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 set(target test_cutemockserver)
 
-set(CMAKE_AUTORCC ON)
-
 set(resources test_resources.qrc)
 set(headers test_cutemockserver.h)
 set(sources test_cutemockserver.cpp)
