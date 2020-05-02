@@ -1,8 +1,5 @@
 #include <QTest>
 #include <QSignalSpy>
-#include <QTcpSocket>
-#include <QSslSocket>
-#include <QHostAddress>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -70,6 +67,8 @@ void CuteMockServerTestCase::test_nullptr_http_route()
     QCOMPARE(mockServer.listenHttp(8080), true);
 
 //    QCOMPARE(mockServer.setHttpRoute("", nullptr), false));
+
+    QFAIL("To do");
 }
 
 void CuteMockServerTestCase::test_nonexistent_http_route_via_get()
