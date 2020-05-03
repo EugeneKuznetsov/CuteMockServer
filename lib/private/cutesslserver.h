@@ -1,7 +1,9 @@
 #pragma once
 
 #include <QTcpServer>
-#include <QObject>
+#include <QNetworkRequest>
+#include <QSslCertificate>
+#include <QSslKey>
 
 class CuteSslServer : public QTcpServer
 {
@@ -10,4 +12,12 @@ class CuteSslServer : public QTcpServer
 public:
     explicit CuteSslServer(QObject *parent = nullptr);
 
+    void configureRequest(QNetworkRequest &request) const;
+
+protected:
+    virtual void incomingConnection(qintptr handle) override;
+
+private:
+    QSslCertificate m_certificate;
+    QSslKey         m_privateKey;
 };

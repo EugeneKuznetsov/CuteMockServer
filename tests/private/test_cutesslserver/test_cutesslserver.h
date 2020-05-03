@@ -7,5 +7,5 @@ class CuteSslServerTestCase : public QObject
     Q_OBJECT
 
 private slots:
-
+    void test_configure_request();
 };
