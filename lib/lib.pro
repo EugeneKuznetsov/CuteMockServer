@@ -12,12 +12,14 @@ HEADERS += \
     cutemockserver.h \
     private/cutehttprequest.h \
     private/cutehttpresponse.h \
+    private/cutemockdata.h \
     private/cutesslserver.h
 
 SOURCES += \
     cutemockserver.cpp \
     private/cutehttprequest.cpp \
     private/cutehttpresponse.cpp \
+    private/cutemockdata.cpp \
     private/cutesslserver.cpp
 
 RESOURCES += \
