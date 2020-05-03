@@ -3,6 +3,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslConfiguration>
 #include "lib/cutemockserver.h"
 #include "test_cutemockserver.h"
 
@@ -237,6 +238,95 @@ void CuteMockServerTestCase::test_existing_http_route_via_delete()
     QCOMPARE(reply->header(QNetworkRequest::ContentTypeHeader).toString(), "text/html");
     QCOMPARE(reply->header(QNetworkRequest::ContentLengthHeader).toInt(), QByteArray("Hello Cute Client").length());
     QCOMPARE(reply->readAll(), QByteArray("Hello Cute Client"));
+}
+
+void CuteMockServerTestCase::test_nonexistent_https_route_via_get()
+{
+    CuteMockServer mockServer;
+    QCOMPARE(mockServer.listenHttps(4443), true);
+
+//    CuteMockData cmd(CuteMockData::GET, 200, CuteMockData::TextHtml, "Hello Cute Client");
+//   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
+
+    QNetworkRequest request(QUrl("https://localhost:4443/wrong/route"));
+    mockServer.configureSecureRequest(&request);
+    QNetworkAccessManager network;
+    QNetworkReply *reply = network.get(request);
+    reply->setParent(&network);
+
+    QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
+    QVERIFY(replyIsReady.wait(50));
+
+    QCOMPARE(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(), 404);
+    QCOMPARE(reply->header(QNetworkRequest::ContentTypeHeader).toString().isEmpty(), true);
+    QCOMPARE(reply->header(QNetworkRequest::ContentLengthHeader).toInt(), 0);
+    QCOMPARE(reply->readAll().isEmpty(), true);
+}
+
+void CuteMockServerTestCase::test_nonexistent_https_route_via_post()
+{
+    CuteMockServer mockServer;
+    QCOMPARE(mockServer.listenHttps(4443), true);
+
+//    CuteMockData cmd(CuteMockData::POST, 200, CuteMockData::TextHtml, "Hello Cute Client");
+//   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
+
+    QNetworkAccessManager network;
+    QNetworkRequest request(QUrl("https://localhost:4443/wrong/route"));
+    mockServer.configureSecureRequest(&request);
+    QNetworkReply *reply = network.post(request, QByteArray());
+    reply->setParent(&network);
+
+    QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
+    QVERIFY(replyIsReady.wait(50));
+    QCOMPARE(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(), 404);
+    QCOMPARE(reply->header(QNetworkRequest::ContentTypeHeader).toString().isEmpty(), true);
+    QCOMPARE(reply->header(QNetworkRequest::ContentLengthHeader).toInt(), 0);
+    QCOMPARE(reply->readAll().isEmpty(), true);
+}
+
+void CuteMockServerTestCase::test_nonexistent_https_route_via_put()
+{
+    CuteMockServer mockServer;
+    QCOMPARE(mockServer.listenHttps(4443), true);
+
+//    CuteMockData cmd(CuteMockData::PUT, 200, CuteMockData::TextHtml, "Hello Cute Client");
+//   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
+
+    QNetworkAccessManager network;
+    QNetworkRequest request(QUrl("https://localhost:4443/wrong/route"));
+    mockServer.configureSecureRequest(&request);
+    QNetworkReply *reply = network.put(request, QByteArray());
+    reply->setParent(&network);
+
+    QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
+    QVERIFY(replyIsReady.wait(50));
+    QCOMPARE(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(), 404);
+    QCOMPARE(reply->header(QNetworkRequest::ContentTypeHeader).toString().isEmpty(), true);
+    QCOMPARE(reply->header(QNetworkRequest::ContentLengthHeader).toInt(), 0);
+    QCOMPARE(reply->readAll().isEmpty(), true);
+}
+
+void CuteMockServerTestCase::test_nonexistent_https_route_via_delete()
+{
+    CuteMockServer mockServer;
+    QCOMPARE(mockServer.listenHttps(4443), true);
+
+//    CuteMockData cmd(CuteMockData::DELETE, 200, CuteMockData::TextHtml, "Hello Cute Client");
+//   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
+
+    QNetworkAccessManager network;
+    QNetworkRequest request(QUrl("https://localhost:4443/wrong/route"));
+    mockServer.configureSecureRequest(&request);
+    QNetworkReply *reply = network.deleteResource(request);
+    reply->setParent(&network);
+
+    QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
+    QVERIFY(replyIsReady.wait(50));
+    QCOMPARE(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(), 404);
+    QCOMPARE(reply->header(QNetworkRequest::ContentTypeHeader).toString().isEmpty(), true);
+    QCOMPARE(reply->header(QNetworkRequest::ContentLengthHeader).toInt(), 0);
+    QCOMPARE(reply->readAll().isEmpty(), true);
 }
 
 QTEST_GUILESS_MAIN(CuteMockServerTestCase)

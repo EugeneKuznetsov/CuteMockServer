@@ -1,5 +1,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QSslSocket>
+#include <QNetworkRequest>
 #include "private/cutesslserver.h"
 #include "private/cutehttprequest.h"
 #include "private/cutehttpresponse.h"
@@ -12,6 +14,7 @@ CuteMockServer::CuteMockServer(QObject *parent/*= nullptr*/)
     Q_INIT_RESOURCE(certificates);
     m_sslServer = new CuteSslServer(this);
     connect(m_tcpServer, &QTcpServer::newConnection, this, &CuteMockServer::httpRequest);
+    connect(m_sslServer, &QTcpServer::newConnection, this, &CuteMockServer::secureHttpRequest);
 }
 
 bool CuteMockServer::listenHttp(const ushort port)
@@ -30,6 +33,14 @@ bool CuteMockServer::listenHttps(const ushort port)
     return started;
 }
 
+void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
+{
+    if (nullptr == request)
+        qCritical() << "Cannot configure nullptr";
+    else
+        m_sslServer->configureRequest(*request);
+}
+
 void CuteMockServer::httpRequest()
 {
     QTcpSocket *client = m_tcpServer->nextPendingConnection();
@@ -42,4 +53,13 @@ void CuteMockServer::httpResponse(QTcpSocket *client, const CuteHttpRequest &req
 {
     CuteHttpResponse response;
     client->write(response.data());
+    client->flush();
+}
+
+void CuteMockServer::secureHttpRequest()
+{
+    QSslSocket *client = qobject_cast<QSslSocket*>(m_sslServer->nextPendingConnection());
+    client->setParent(this);
+    CuteHttpRequest *httpRequest = new CuteHttpRequest(client);
+    connect(httpRequest, &CuteHttpRequest::parsed, this, &CuteMockServer::httpResponse);
 }

@@ -23,4 +23,9 @@ private slots:
     void test_existing_http_route_via_put();
     void test_existing_http_route_via_delete();
 
+    void test_nonexistent_https_route_via_get();
+    void test_nonexistent_https_route_via_post();
+    void test_nonexistent_https_route_via_put();
+    void test_nonexistent_https_route_via_delete();
+
 };
