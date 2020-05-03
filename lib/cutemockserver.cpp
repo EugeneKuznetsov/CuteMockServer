@@ -10,6 +10,7 @@
 CuteMockServer::CuteMockServer(QObject *parent/*= nullptr*/)
     : QObject(parent)
     , m_tcpServer(new QTcpServer(this))
+    , m_routes()
 {
     Q_INIT_RESOURCE(certificates);
     m_sslServer = new CuteSslServer(this);
@@ -33,6 +34,11 @@ bool CuteMockServer::listenHttps(const ushort port)
     return started;
 }
 
+void CuteMockServer::setHttpRoute(CuteMockData::Method requestMethod, const QUrl &uri, const CuteMockData &replyMockData)
+{
+    m_routes.insert(requestMethod, {{uri, replyMockData}});
+}
+
 void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
 {
     if (nullptr == request)
@@ -52,6 +58,13 @@ void CuteMockServer::httpRequest()
 void CuteMockServer::httpResponse(QTcpSocket *client, const CuteHttpRequest &request)
 {
     CuteHttpResponse response;
+    auto methodRoute = m_routes.find(request.getMethod());
+    if (methodRoute != m_routes.cend()) {
+        auto mockData = methodRoute->find(request.getUri());
+        if (mockData != methodRoute->cend()) {
+            response = CuteHttpResponse(*mockData);
+        }
+    }
     client->write(response.data());
     client->flush();
 }

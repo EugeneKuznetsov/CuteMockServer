@@ -12,6 +12,7 @@ HEADERS += \
     ../../lib/cutemockserver.h \
     ../../lib/private/cutehttprequest.h \
     ../../lib/private/cutehttpresponse.h \
+    ../../lib/private/cutemockdata.h \
     ../../lib/private/cutesslserver.h \
     test_cutemockserver.h
 
@@ -19,6 +20,7 @@ SOURCES += \
     ../../lib/cutemockserver.cpp \
     ../../lib/private/cutehttprequest.cpp \
     ../../lib/private/cutehttpresponse.cpp \
+    ../../lib/private/cutemockdata.cpp \
     ../../lib/private/cutesslserver.cpp \
     test_cutemockserver.cpp
 
