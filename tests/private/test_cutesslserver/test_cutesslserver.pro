@@ -15,3 +15,6 @@ HEADERS += \
 SOURCES += \
     ../../../lib/private/cutesslserver.cpp \
     test_cutesslserver.cpp
+
+RESOURCES += \
+    ../../../lib/certificates.qrc

@@ -6,10 +6,32 @@
 void CuteSslServerTestCase::test_configure_request()
 {
     QNetworkRequest request;
-    QCOMPARE(request.sslConfiguration().caCertificates().size(), 0);
+
+    bool hasLocalhostCN = false;
+    for (auto c : request.sslConfiguration().caCertificates()) {
+        for (auto cn : c.issuerInfo(QSslCertificate::SubjectInfo::CommonName)) {
+            if (cn == QString("localhost")
+                    && (c.expiryDate().date() == QDateTime::fromString("02-05-2021", "dd-MM-yyyy").date())) {
+                hasLocalhostCN = true;
+                break;
+            }
+        }
+    }
+    QCOMPARE(hasLocalhostCN, false);
+
     CuteSslServer sslServer;
     sslServer.configureRequest(request);
-    QCOMPARE(request.sslConfiguration().caCertificates().size(), 1);
+
+    for (auto c : request.sslConfiguration().caCertificates()) {
+        for (auto cn : c.issuerInfo(QSslCertificate::SubjectInfo::CommonName)) {
+            if (cn == QString("localhost")
+                    && (c.expiryDate().date() == QDateTime::fromString("02-05-2021", "dd-MM-yyyy").date())) {
+                hasLocalhostCN = true;
+                break;
+            }
+        }
+    }
+    QCOMPARE(hasLocalhostCN, true);
 }
 
 QTEST_GUILESS_MAIN(CuteSslServerTestCase)
