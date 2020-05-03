@@ -7,6 +7,7 @@ class CuteMockData
 {
 public:
     enum Method {
+        UNDEFINED,
         GET,
         POST,
         PUT,
