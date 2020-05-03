@@ -58,7 +58,7 @@ void CuteMockServer::httpResponse(QTcpSocket *client, const CuteHttpRequest &req
 
 void CuteMockServer::secureHttpRequest()
 {
-    QSslSocket *client = qobject_cast<QSslSocket*>(m_sslServer->nextPendingConnection());
+    QSslSocket *client = qobject_cast<QSslSocket *>(m_sslServer->nextPendingConnection());
     client->setParent(this);
     CuteHttpRequest *httpRequest = new CuteHttpRequest(client);
     connect(httpRequest, &CuteHttpRequest::parsed, this, &CuteMockServer::httpResponse);

@@ -165,7 +165,7 @@ void CuteMockServerTestCase::test_existing_http_route_via_get()
 //   QCOMPARE(mockServer.setHttpRoute("", &cmd), true);
 
     QNetworkAccessManager network;
-    QNetworkRequest request(QUrl("http://localhost:8080/"));
+    QNetworkRequest request(QUrl("http://localhost:8080/?query1=value&query2="));
     QNetworkReply *reply = network.get(request);
     reply->setParent(&network);
 
@@ -187,7 +187,8 @@ void CuteMockServerTestCase::test_existing_http_route_via_post()
 
     QNetworkAccessManager network;
     QNetworkRequest request(QUrl("http://localhost:8080/resource/1"));
-    QNetworkReply *reply = network.post(request, QByteArray());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = network.post(request, QByteArray("{\"root\": \"object\"}"));
     reply->setParent(&network);
 
     QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
