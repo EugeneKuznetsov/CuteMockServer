@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include "cutemockdata.h"
 
 class QTcpSocket;
 
@@ -13,6 +14,9 @@ class CuteHttpRequest : public QObject
 public:
     explicit CuteHttpRequest(QTcpSocket *parent);
 
+    const CuteMockData::Method &getMethod() const {
+        return m_method;
+    }
     const QUrl &getUri() const {
         return m_uri;
     }
@@ -27,8 +31,9 @@ private slots:
     void parse();
 
 private:
-    QUrl        m_uri;
-    QStringList m_headers;
-    QByteArray  m_body;
-    int         m_contentLength;
+    CuteMockData::Method    m_method;
+    QUrl                    m_uri;
+    QStringList             m_headers;
+    QByteArray              m_body;
+    int                     m_contentLength;
 };
