@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 
 add_subdirectory(test_cutemockserver)
+add_subdirectory(test_qmlcutemockserver)
 add_subdirectory(private/test_cutesslserver)
