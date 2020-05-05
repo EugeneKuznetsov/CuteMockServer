@@ -113,7 +113,7 @@ void CuteMockServerTestCase::nonexistentSecureHttpRoute()
     QNetworkRequest request(QUrl("https://localhost:4443/wrong/route"));
     mockServer.configureSecureRequest(&request);
     QNetworkAccessManager network;
-    QNetworkReply *reply = network.get(request);
+    QNetworkReply *reply = network.put(request, "");
     reply->setParent(&network);
 
     QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
