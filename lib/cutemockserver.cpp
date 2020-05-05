@@ -7,6 +7,7 @@
 #include "private/cutehttprequest.h"
 #include "private/cutehttpresponse.h"
 #include "private/cutehttprouter.h"
+#include "cutefile.h"
 #include "cutemockserver.h"
 
 CuteMockServer::CuteMockServer(QObject *parent/*= nullptr*/)
@@ -29,6 +30,7 @@ void CuteMockServer::registerTypes()
 {
     // ToDo: start using generated version header instead of hardcoded numbers
     qmlRegisterType<CuteMockServer>("CuteMockServer", 0, 4, "CuteMockServer");
+    qmlRegisterType<CuteFile>("CuteMockServer", 0, 4, "CuteFile");
 }
 
 void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
@@ -56,11 +58,6 @@ bool CuteMockServer::listenHttps(const ushort port)
 }
 
 void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, const QByteArray &content)
-{
-    m_router->set(method, uri, statusCode, contentType, content);
-}
-
-void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, QFile &content)
 {
     m_router->set(method, uri, statusCode, contentType, content);
 }

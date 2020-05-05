@@ -5,6 +5,7 @@
 #include <QNetworkReply>
 #include <QSslConfiguration>
 #include "lib/cutemockserver.h"
+#include "lib/cutefile.h"
 #include "test_cutemockserver.h"
 
 void CuteMockServerTestCase::listenHttpFailure()
@@ -87,8 +88,8 @@ void CuteMockServerTestCase::existingHttpRoute()
     CuteMockServer mockServer;
     QCOMPARE(mockServer.listenHttp(8080), true);
 
-    QFile testImage(":/test_image.png");
-    mockServer.setHttpRoute("POST", QUrl("/images"), 201, "image/png", testImage);
+    CuteFile testImage(":/test_image.png");
+    mockServer.setHttpRoute("POST", QUrl("/images"), 201, "image/png", testImage.data());
 
     QNetworkAccessManager network;
     QNetworkRequest request(QUrl("http://localhost:8080/images"));

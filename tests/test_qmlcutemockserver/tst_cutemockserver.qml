@@ -131,7 +131,9 @@ TestCase {
         connectSpy.target = client
         connectSpy.signalName = "success"
         var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
-        mockServer.setHttpRoute("POST", "/post/route", 202, "text/html", "Hello cute QML Mock Client");
+        var testImage = createTemporaryQmlObject("import CuteMockServer 0.4; CuteFile { }", root)
+        compare(testImage.openFile(":/test_image.png"), true)
+        mockServer.setHttpRoute("POST", "/post/route", 202, "image/png", testImage.data);
         verify(mockServer !== null)
         compare(mockServer.listenHttps(4443), true)
 
@@ -139,9 +141,9 @@ TestCase {
         connectSpy.wait(150)
         compare(connectSpy.count, 1)
         var args = connectSpy.signalArguments[0]
-        compare(args[0], 202)                           // statusCode
-        compare(args[1], "text/html")                   // contentType
-        compare(args[2], 26)                            // contentLength
-        compare(args[3], "Hello cute QML Mock Client")  // content
+        compare(args[0], 202)                       // statusCode
+        compare(args[1], "image/png")               // contentType
+        compare(args[2], 1544)                      // contentLength
+        compare(args[3].byteLength, 1544)           // content
     }
 }

@@ -10,6 +10,7 @@ class QNetworkRequest;
 class CuteSslServer;
 class CuteHttpRequest;
 class CuteHttpRouter;
+class CuteFile;
 
 class CuteMockServer : public QObject
 {
@@ -28,7 +29,6 @@ public slots:
     bool listenHttps(const ushort port);
 
     void setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, const QByteArray &content);
-    void setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, QFile &content);
 
 private slots:
     void secureHttpRequest();
