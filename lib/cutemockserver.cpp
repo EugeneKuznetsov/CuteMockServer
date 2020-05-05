@@ -1,3 +1,4 @@
+#include <QQmlEngine>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QSslSocket>
@@ -24,6 +25,20 @@ CuteMockServer::~CuteMockServer()
     delete m_router;
 }
 
+void CuteMockServer::registerTypes()
+{
+    // ToDo: start using generated version header instead of hardcoded numbers
+    qmlRegisterType<CuteMockServer>("CuteMockServer", 0, 4, "CuteMockServer");
+}
+
+void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
+{
+    if (nullptr == request)
+        qCritical() << "Cannot configure nullptr";
+    else
+        m_sslServer->configureRequest(*request);
+}
+
 bool CuteMockServer::listenHttp(const ushort port)
 {
     const bool started = m_tcpServer->listen(QHostAddress::Any, port);
@@ -48,14 +63,6 @@ void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const 
 void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, QFile &content)
 {
     m_router->set(method, uri, statusCode, contentType, content);
-}
-
-void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
-{
-    if (nullptr == request)
-        qCritical() << "Cannot configure nullptr";
-    else
-        m_sslServer->configureRequest(*request);
 }
 
 void CuteMockServer::secureHttpRequest()
