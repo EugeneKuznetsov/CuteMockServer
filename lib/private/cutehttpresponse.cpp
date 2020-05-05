@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "cutehttpresponse.h"
 
 CuteHttpResponse::CuteHttpResponse()
@@ -7,34 +8,24 @@ CuteHttpResponse::CuteHttpResponse()
              "\r\n";
 }
 
-CuteHttpResponse::CuteHttpResponse(const CuteMockData &replyData)
+CuteHttpResponse::CuteHttpResponse(const int statusCode, const QString &contentType, const QByteArray &content)
+{
+    setData(statusCode, contentType, content);
+}
+
+void CuteHttpResponse::setData(const int statusCode, const QString &contentType, const QByteArray &content)
 {
     // Status line
     m_data = "HTTP/1.1 ";
-    m_data += QString::number(replyData.getStatusCode());
+    m_data += QString::number(statusCode);
     m_data += " Mock Data\r\n";
     // Headers
     m_data += "Content-Type: ";
-    switch (replyData.getContentType()) {
-    case CuteMockData::ApplicationJson:
-        m_data += "application/json\r\n";
-        break;
-    case CuteMockData::ImagePng:
-        m_data += "image/png\r\n";
-        break;
-    default:
-        m_data += "text/html\r\n";
-        break;
-    }
+    m_data += contentType;
+    m_data += "\r\n";
     m_data += "Content-Length: ";
-    m_data += QString::number(replyData.getBody().length());
+    m_data += QString::number(content.length());
     m_data += "\r\n\r\n";
     // Body
-    m_data += replyData.getBody();
-}
-
-CuteHttpResponse &CuteHttpResponse::operator=(const CuteHttpResponse &rightValue)
-{
-    this->m_data = rightValue.data();
-    return *this;
+    m_data += content;
 }

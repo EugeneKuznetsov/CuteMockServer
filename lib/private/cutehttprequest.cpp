@@ -3,7 +3,7 @@
 
 CuteHttpRequest::CuteHttpRequest(QTcpSocket *parent)
     : QObject(parent)
-    , m_method(CuteMockData::UNDEFINED)
+    , m_method()
     , m_uri()
     , m_headers()
     , m_body()
@@ -20,17 +20,7 @@ void CuteHttpRequest::parse()
         if (requestLine.size() != 3) {
             qWarning() << "Request-Line is incorrect";
         } else {
-            if (requestLine[0] == "GET")
-                m_method = CuteMockData::GET;
-            else if (requestLine[0] == "POST")
-                m_method = CuteMockData::POST;
-            else if (requestLine[0] == "PUT")
-                m_method = CuteMockData::PUT;
-            else if (requestLine[0] == "DELETE")
-                m_method = CuteMockData::DELETE;
-            else
-                qWarning() << "Request Method is not one of [GET, POST, PUT, DELETE]."
-                           << requestLine[0];
+            m_method = requestLine[0];
             m_uri = QUrl(requestLine[1]);
         }
     }

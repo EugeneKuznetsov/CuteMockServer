@@ -1,21 +1,21 @@
 #pragma once
 
 #include <QByteArray>
-#include "cutemockdata.h"
+#include <QFile>
 
 class CuteHttpResponse
 {
-    CuteHttpResponse(const CuteHttpResponse &) = delete;
-
 public:
     CuteHttpResponse();
-    CuteHttpResponse(const CuteMockData &replyData);
-    CuteHttpResponse &operator=(const CuteHttpResponse &rightValue);
+    CuteHttpResponse(const int statusCode, const QString &contentType, const QByteArray &content);
 
     const QByteArray &data() const {
         return m_data;
     }
 
 private:
-    QByteArray  m_data;
+    void setData(const int statusCode, const QString &contentType, const QByteArray &content);
+
+private:
+    QByteArray m_data;
 };
