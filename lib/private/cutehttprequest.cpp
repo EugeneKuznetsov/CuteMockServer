@@ -18,7 +18,9 @@ void CuteHttpRequest::parse()
     if (m_uri.isEmpty()) {
         auto requestLine = client->readLine().split(' ');
         if (requestLine.size() != 3) {
-            qWarning() << "Request-Line is incorrect";
+            qWarning() << "Request-Line is incorrect. Closing connection";
+            client->close();
+            return;
         } else {
             m_method = requestLine[0];
             m_uri = QUrl(requestLine[1]);
