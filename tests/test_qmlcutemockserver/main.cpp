@@ -10,4 +10,4 @@ void SetupTestSuit::qmlEngineAvailable(QQmlEngine *)
     qmlRegisterType<HttpClient>("HttpClient", 1, 0, "HttpClient");
 }
 
-QUICK_TEST_MAIN_WITH_SETUP([Jira QML plugin], SetupTestSuit)
+QUICK_TEST_MAIN_WITH_SETUP(QML Cute Mock Server, SetupTestSuit)
