@@ -8,6 +8,7 @@ CuteSslServer::CuteSslServer(QObject *parent/* = nullptr*/)
     : QTcpServer(parent)
     , m_certificate()
     , m_privateKey()
+    , m_certificateFile(":/cute/mock/ssl/cert/localhost.crt")
 {
     QFile certificateFile(":/cute/mock/ssl/cert/localhost.crt");
     if (!certificateFile.open(QFile::ReadOnly))

@@ -8,19 +8,19 @@ TestCase {
     name: "[CuteMockServer]"
 
     function test_listenHttpFailure() {
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
 
         verify(mockServer !== null)
-        compare(mockServer.listenHttps(8080), true)
-        compare(mockServer.listenHttp(8080), false)
+        compare(mockServer.listen(8080, true), true)
+        compare(mockServer.listen(8080), false)
     }
 
     function test_listenSecureHttpFailure() {
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
 
         verify(mockServer !== null)
-        compare(mockServer.listenHttp(4443), true)
-        compare(mockServer.listenHttps(4443), false)
+        compare(mockServer.listen(4443), true)
+        compare(mockServer.listen(4443, true), false)
     }
 
     function test_listenHttpAndConnect() {
@@ -28,9 +28,9 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         verify(mockServer !== null)
-        compare(mockServer.listenHttp(8080), true)
+        compare(mockServer.listen(8080), true)
 
         client.get("http://localhost:8080/")
         connectSpy.wait(150)
@@ -42,9 +42,9 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         verify(mockServer !== null)
-        compare(mockServer.listenHttps(4443), true)
+        compare(mockServer.listen(4443, true), true)
 
         client.get("https://localhost:4443/")
         connectSpy.wait(150)
@@ -56,9 +56,9 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         verify(mockServer !== null)
-        compare(mockServer.listenHttps(4443), true)
+        compare(mockServer.listen(4443, true), true)
 
         client.get("https://localhost:4443/")
         connectSpy.wait(150)
@@ -70,10 +70,10 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         mockServer.setHttpRoute("GET", "/", 200, "", "");
         verify(mockServer !== null)
-        compare(mockServer.listenHttp(8080), true)
+        compare(mockServer.listen(8080), true)
 
         client.get("http://localhost:8080/wrong/route")
         connectSpy.wait(150)
@@ -90,10 +90,10 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         mockServer.setHttpRoute("DELETE", "/delete/route", 200, "application/json", "{\"deleted\": \"true\"}");
         verify(mockServer !== null)
-        compare(mockServer.listenHttp(8080), true)
+        compare(mockServer.listen(8080), true)
 
         client.deleteResource("http://localhost:8080/delete/route")
         connectSpy.wait(150)
@@ -110,10 +110,10 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
         mockServer.setHttpRoute("PUT", "/wrong/router", 201, "", "");
         verify(mockServer !== null)
-        compare(mockServer.listenHttps(4443), true)
+        compare(mockServer.listen(4443, true), true)
 
         client.put("https://localhost:4443/wrong/route")
         connectSpy.wait(150)
@@ -130,12 +130,12 @@ TestCase {
         var connectSpy = createTemporaryQmlObject("import QtTest 1.14; SignalSpy { }", root)
         connectSpy.target = client
         connectSpy.signalName = "success"
-        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.4; CuteMockServer { }", root)
-        var testImage = createTemporaryQmlObject("import CuteMockServer 0.4; CuteFile { }", root)
+        var mockServer = createTemporaryQmlObject("import CuteMockServer 0.5; CuteMockServer { }", root)
+        var testImage = createTemporaryQmlObject("import CuteMockServer 0.5; CuteFile { }", root)
         compare(testImage.openFile(":/test_image.png"), true)
         mockServer.setHttpRoute("POST", "/post/route", 202, "image/png", testImage.data);
         verify(mockServer !== null)
-        compare(mockServer.listenHttps(4443), true)
+        compare(mockServer.listen(4443, true), true)
 
         client.post("https://localhost:4443/post/route")
         connectSpy.wait(150)

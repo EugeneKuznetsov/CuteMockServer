@@ -11,21 +11,21 @@
 void CuteMockServerTestCase::listenHttpFailure()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttps(8080), true);
-    QCOMPARE(mockServer.listenHttp(8080), false);
+    QCOMPARE(mockServer.listen(8080), true);
+    QCOMPARE(mockServer.listen(8080), false);
 }
 
 void CuteMockServerTestCase::listenSecureHttpFailure()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttp(4443), true);
-    QCOMPARE(mockServer.listenHttps(4443), false);
+    QCOMPARE(mockServer.listen(4443, true), true);
+    QCOMPARE(mockServer.listen(4443, true), false);
 }
 
 void CuteMockServerTestCase::listenHttp()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttp(8080), true);
+    QCOMPARE(mockServer.listen(8080), true);
 
     QTcpSocket tcpClient;
     tcpClient.connectToHost("localhost", 8080);
@@ -37,7 +37,7 @@ void CuteMockServerTestCase::listenHttp()
 void CuteMockServerTestCase::listenSecureHttp()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttps(4443), true);
+    QCOMPARE(mockServer.listen(4443, true), true);
 
     QSslSocket sslClient;
     sslClient.connectToHost("localhost", 4443);
@@ -49,8 +49,8 @@ void CuteMockServerTestCase::listenSecureHttp()
 void CuteMockServerTestCase::listenHttpAndSecureHttp()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttp(8080), true);
-    QCOMPARE(mockServer.listenHttps(4443), true);
+    QCOMPARE(mockServer.listen(8080), true);
+    QCOMPARE(mockServer.listen(4443, true), true);
 
     QTcpSocket tcpClient;
     tcpClient.connectToHost("localhost", 8080);
@@ -66,7 +66,7 @@ void CuteMockServerTestCase::listenHttpAndSecureHttp()
 void CuteMockServerTestCase::nonexistentHttpRoute()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttp(8080), true);
+    QCOMPARE(mockServer.listen(8080), true);
 
     mockServer.setHttpRoute("GET", QUrl("/"), 200, "", "");
 
@@ -86,7 +86,7 @@ void CuteMockServerTestCase::nonexistentHttpRoute()
 void CuteMockServerTestCase::existingHttpRoute()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttp(8080), true);
+    QCOMPARE(mockServer.listen(8080), true);
 
     CuteFile testImage(":/test_image.png");
     mockServer.setHttpRoute("POST", QUrl("/images"), 201, "image/png", testImage.data());
@@ -107,7 +107,7 @@ void CuteMockServerTestCase::existingHttpRoute()
 void CuteMockServerTestCase::nonexistentSecureHttpRoute()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttps(4443), true);
+    QCOMPARE(mockServer.listen(4443, true), true);
 
     mockServer.setHttpRoute("PUT", QUrl("/"), 202, "", "");
 
@@ -129,7 +129,7 @@ void CuteMockServerTestCase::nonexistentSecureHttpRoute()
 void CuteMockServerTestCase::existingSecureHttpRoute()
 {
     CuteMockServer mockServer;
-    QCOMPARE(mockServer.listenHttps(4443), true);
+    QCOMPARE(mockServer.listen(4443, true), true);
 
     mockServer.setHttpRoute("GET", QUrl("/?query1=value&query2="), 200, "text/html", "Hello Cute Client");
 

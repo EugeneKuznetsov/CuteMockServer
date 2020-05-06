@@ -16,6 +16,8 @@ class CuteMockServer : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QUrl certificateFile READ getCertificateFile CONSTANT)
+
 public:
     explicit CuteMockServer(QObject *parent = nullptr);
     virtual ~CuteMockServer();
@@ -23,10 +25,10 @@ public:
     static void registerTypes();
 
     void configureSecureRequest(QNetworkRequest *request) const;
+    const QUrl &getCertificateFile() const;
 
 public slots:
-    bool listenHttp(const ushort port);
-    bool listenHttps(const ushort port);
+    bool listen(const ushort port, const bool secure = false);
 
     void setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, const QByteArray &content);
 

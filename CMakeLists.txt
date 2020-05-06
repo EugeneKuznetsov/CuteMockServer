@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cutemockserver VERSION 0.4 LANGUAGES CXX)
+project(cutemockserver VERSION 0.5 LANGUAGES CXX)
 
 find_package(Qt5 COMPONENTS QuickTest Gui Qml Network Test REQUIRED)
 

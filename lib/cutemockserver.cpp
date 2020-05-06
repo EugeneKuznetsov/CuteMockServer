@@ -29,8 +29,8 @@ CuteMockServer::~CuteMockServer()
 void CuteMockServer::registerTypes()
 {
     // ToDo: start using generated version header instead of hardcoded numbers
-    qmlRegisterType<CuteMockServer>("CuteMockServer", 0, 4, "CuteMockServer");
-    qmlRegisterType<CuteFile>("CuteMockServer", 0, 4, "CuteFile");
+    qmlRegisterType<CuteMockServer>("CuteMockServer", 0, 5, "CuteMockServer");
+    qmlRegisterType<CuteFile>("CuteMockServer", 0, 5, "CuteFile");
 }
 
 void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
@@ -41,19 +41,18 @@ void CuteMockServer::configureSecureRequest(QNetworkRequest *request) const
         m_sslServer->configureRequest(*request);
 }
 
-bool CuteMockServer::listenHttp(const ushort port)
+const QUrl &CuteMockServer::getCertificateFile() const
 {
-    const bool started = m_tcpServer->listen(QHostAddress::Any, port);
-    if (!started)
-        qCritical() << "Could not start Cute Mock HTTP server on port" << port << m_tcpServer->errorString();
-    return started;
+    return m_sslServer->getCertificateFile();
 }
 
-bool CuteMockServer::listenHttps(const ushort port)
+bool CuteMockServer::listen(const ushort port, const bool secure/* = false*/)
 {
-    const bool started = m_sslServer->listen(QHostAddress::Any, port);
+    const bool started = secure ? m_sslServer->listen(QHostAddress::Any, port)
+                                : m_tcpServer->listen(QHostAddress::Any, port);
     if (!started)
-        qCritical() << "Could not start Cute Mock HTTPS server on port" << port << m_sslServer->errorString();
+        qCritical() << "Could not start" << (secure ? "Secure" : "")
+                    << "Cute Mock HTTP server on port" << port << m_tcpServer->errorString();
     return started;
 }
 
