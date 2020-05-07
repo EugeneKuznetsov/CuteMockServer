@@ -30,7 +30,8 @@ public:
 public slots:
     bool listen(const ushort port, const bool secure = false);
 
-    void setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, const QByteArray &content);
+    void setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType,
+                      const QByteArray &content, const bool ignoreUriQuery = false);
 
 private slots:
     void secureHttpRequest();

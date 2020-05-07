@@ -147,4 +147,22 @@ void CuteMockServerTestCase::existingSecureHttpRoute()
     QCOMPARE(reply->readAll(), QByteArray("Hello Cute Client"));
 }
 
+void CuteMockServerTestCase::existingHttpRouteIgnoredQuery()
+{
+    CuteMockServer mockServer;
+    QCOMPARE(mockServer.listen(8080), true);
+
+    mockServer.setHttpRoute("GET", QUrl("/ignore?query1=value&query2="), 200, "text/html", "", true);
+
+    QNetworkAccessManager network;
+    QNetworkRequest request(QUrl("http://localhost:8080/ignore?query1=value&query2="));
+    mockServer.configureSecureRequest(&request);
+    QNetworkReply *reply = network.get(request);
+    reply->setParent(&network);
+
+    QSignalSpy replyIsReady(reply, &QNetworkReply::finished);
+    QVERIFY(replyIsReady.wait(50));
+    QCOMPARE(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(), 200);
+}
+
 QTEST_GUILESS_MAIN(CuteMockServerTestCase)

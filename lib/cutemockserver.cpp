@@ -56,9 +56,10 @@ bool CuteMockServer::listen(const ushort port, const bool secure/* = false*/)
     return started;
 }
 
-void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType, const QByteArray &content)
+void CuteMockServer::setHttpRoute(const QString &method, const QUrl &uri, const int statusCode, const QString &contentType,
+                                  const QByteArray &content, const bool ignoreUriQuery/* = false*/)
 {
-    m_router->set(method, uri, statusCode, contentType, content);
+    m_router->set(method, uri, statusCode, contentType, content, ignoreUriQuery);
 }
 
 void CuteMockServer::secureHttpRequest()

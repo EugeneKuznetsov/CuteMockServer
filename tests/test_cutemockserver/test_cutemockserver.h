@@ -18,4 +18,6 @@ private slots:
 
     void nonexistentSecureHttpRoute();
     void existingSecureHttpRoute();
+
+    void existingHttpRouteIgnoredQuery();
 };
